@@ -10,7 +10,7 @@ FAN:
         InvRes: True        # Using inverted residual block from mobilenet-v2
 
     SMALL:
-        nStack: 1           # Number of stacked network
+        nStack: 2           # Number of stacked network
         nModules: 2         # Number of residual block in HourGlass
         nHgDepth: 2         # Number of recusion of HourGlass
         nFeats: 128         # Block width (number of intermediate channels)
@@ -20,7 +20,7 @@ FAN:
         InvRes: True        # Using inverted residual block from mobilenet-v2
 
     MEDIUM:
-        nStack: 1           # Number of stacked network
+        nStack: 3           # Number of stacked network
         nModules: 2         # Number of residual block in HourGlass
         nHgDepth: 2         # Number of recusion of HourGlass
         nFeats: 128         # Block width (number of intermediate channels)
@@ -30,7 +30,7 @@ FAN:
         InvRes: True        # Using inverted residual block from mobilenet-v2
 
     LARGE: 
-        nStack: 1           # Number of stacked network
+        nStack: 4           # Number of stacked network
         nModules: 2         # Number of residual block in HourGlass
         nHgDepth: 2         # Number of recusion of HourGlass
         nFeats: 128         # Block width (number of intermediate channels)

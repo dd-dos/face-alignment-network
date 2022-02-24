@@ -22,7 +22,6 @@ def test_retina_landmark(args):
     fa = FaceAlignment(args)
     while True:
         ret, frame = cap.read()
-        # frame = cv2.resize(frame, (max(frame_width, frame_height), max(frame_width, frame_height)))
         if not ret:
             break
         
@@ -32,8 +31,8 @@ def test_retina_landmark(args):
         frame = fa.draw_landmarks(frame)
         result.write(frame)
         # frame = fa.get_head_pose(frame)
-        logging.info("reference time: {}".format(time.time()-time_0))
-        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+        infer_time = time.time()-time_0
+        logging.info(f"inference time: {infer_time} - fps: {1/infer_time}")
 
         cv2.imshow("", frame)
 
@@ -73,8 +72,12 @@ if __name__=="__main__":
     P.add_argument('--detectmodelfile', type=str, required=False, help='face detect model file')
     P.add_argument('--model-path', type=str, required=False, help='model file path')
     P.add_argument('--device', type=str, default='cpu', help='used device: cpu or cuda')
-    P.add_argument('--config-path', type=str, required=True, help='model config path')
+    P.add_argument('--config-path', type=str, required=False, help='model config path')
     P.add_argument('--model-size', type=str, help='model size: TINY, SMALL, MEDIUM or LARGE')
     P.add_argument('--netType', type=str, default='FAN', help='options: fan')
+    P.add_argument('--save-heatmap', action="store_true", help="Save heatmap")
+    P.add_argument('--strip-heatmap', type=float, default=0, help="Strip value from heatmap")
+    P.add_argument('--black-out', action="store_true", help="Black out")
+
     args = P.parse_args()
     test_retina_landmark(args)

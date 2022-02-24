@@ -1,4 +1,5 @@
 from __future__ import print_function
+from email.policy import strict
 import os
 import argparse
 import torch
@@ -23,6 +24,9 @@ class FaceAlignment:
         self.face_alignment_net = torch.load(args.model_path, map_location=args.device)
         self.face_alignment_net.to(args.device)
         self.face_alignment_net.eval()
+        self.save_heatmap = args.save_heatmap
+        self.strip_heatmap = args.strip_heatmap
+        self.black_out = args.black_out
 
     def get_landmarks(self, image_or_path, detected_faces=None):
         return self.get_landmarks_from_image(image_or_path, detected_faces)
@@ -56,13 +60,10 @@ class FaceAlignment:
 
         reference_scale = 200
         if detected_faces is None:
-            time_0 = time.time()
             detected_faces = self.face_detector.detect_from_image(image[..., ::-1].copy())
             detected_faces = [det for det in detected_faces if det[-1] >= 0.9]
-            # logging.info("detector takes {}".format(time.time()-time_0))
             reference_scale = self.face_detector.reference_scale
 
-        # print("len detected faces: {}".format(len(detected_faces)))
         if len(detected_faces) == 0:
             print("Warning: No faces were detected.")
             return None
@@ -94,18 +95,25 @@ class FaceAlignment:
 
             inp = crop(image, center, [scale_x, scale_y], reference_scale)
 
-            # io.imsave('crop_%s.jpg' % i,im_to_numpy(inp))
             img_crops.append(im_to_numpy(inp))
 
             inp = inp.to(self.device)
             inp.unsqueeze_(0)
 
-            time_0 = time.time()
             out = self.face_alignment_net(inp)[-1].detach()
-            # logging.info("landmark takes {}".format(time.time()-time_0))
-            
             out = out.cpu()
-            
+            if self.save_heatmap:
+                all_hm = 0
+                for idx, hm in enumerate(out[0]):
+                    if self.strip_heatmap != 0:
+                        hm[hm<hm.max()*self.strip_heatmap] = 0
+
+                    hm = (hm*255).numpy().astype(np.uint8)
+                    # hm = cv2.resize(hm, (256,256))
+                    cv2.imwrite(f"output/hm_{idx}.png", hm)
+                    all_hm += hm
+                cv2.imwrite("output/all_hm.png", all_hm)
+
             pts, pts_img = get_preds_fromhm(out, [center], [[scale_x, scale_y]], [reference_scale])
             pts, pts_img = pts.view(68, 2) * 4, pts_img.view(68, 2)
 
@@ -126,6 +134,9 @@ class FaceAlignment:
 
     def draw_landmarks(self, img):
         result = self.get_landmarks(img)
+        if self.black_out:
+            img = np.zeros(img.shape, dtype=np.uint8)
+            
         if result is None:
             return img
             
