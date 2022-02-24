@@ -3,3 +3,5 @@
 *.pth
 *.zip
 *.tar
+.vscode
+.mpypy_cache

@@ -86,7 +86,7 @@ class W300LP(data.Dataset):
 
     def generateSampleFace(self, idx):
         #landmark
-        pts_path = os.path.join(self.img_folder, 'landmarks', self.anno[idx].split('_')[0], self.anno[idx][:-4] + '.mat')
+        pts_path = os.path.join(self.img_folder, 'landmarks', self.anno[idx].split('_')[0], self.anno[idx][:-8] + '.mat')
         pts = scipy.io.loadmat(pts_path)['pt3d']
         #image
         sf = self.scale_factor
