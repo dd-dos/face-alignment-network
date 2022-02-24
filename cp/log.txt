@@ -1,0 +1,1 @@
+Epoch	LR	Train Loss	Valid Loss	Train Acc	Val Acc	AUC	

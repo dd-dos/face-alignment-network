@@ -1,0 +1,6 @@
+imagecorruptions
+imgaug==0.4.0
+progress
+scipy==1.1.0
+torch-summary
+clearml

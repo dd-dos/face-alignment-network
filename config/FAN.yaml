@@ -1,0 +1,40 @@
+FAN:
+    TINY:
+        nStack: 1           # Number of stacked network
+        nModules: 2         # Number of residual block in HourGlass
+        nHgDepth: 2         # Number of recusion of HourGlass
+        nFeats: 128         # Block width (number of intermediate channels)
+        nClasses: 68        # Number of landmark points
+        scale_factor: 0.3   # Scaling factor
+        rot_factor: 90      # Rotation factor(in degrees)
+        InvRes: True        # Using inverted residual block from mobilenet-v2
+
+    SMALL:
+        nStack: 1           # Number of stacked network
+        nModules: 2         # Number of residual block in HourGlass
+        nHgDepth: 2         # Number of recusion of HourGlass
+        nFeats: 128         # Block width (number of intermediate channels)
+        nClasses: 68        # Number of landmark points
+        scale_factor: 0.3   # Scaling factor
+        rot_factor: 90      # Rotation factor(in degrees)
+        InvRes: True        # Using inverted residual block from mobilenet-v2
+
+    MEDIUM:
+        nStack: 1           # Number of stacked network
+        nModules: 2         # Number of residual block in HourGlass
+        nHgDepth: 2         # Number of recusion of HourGlass
+        nFeats: 128         # Block width (number of intermediate channels)
+        nClasses: 68        # Number of landmark points
+        scale_factor: 0.3   # Scaling factor
+        rot_factor: 90      # Rotation factor(in degrees)
+        InvRes: True        # Using inverted residual block from mobilenet-v2
+
+    LARGE: 
+        nStack: 1           # Number of stacked network
+        nModules: 2         # Number of residual block in HourGlass
+        nHgDepth: 2         # Number of recusion of HourGlass
+        nFeats: 128         # Block width (number of intermediate channels)
+        nClasses: 68        # Number of landmark points
+        scale_factor: 0.3   # Scaling factor
+        rot_factor: 90      # Rotation factor(in degrees)
+        InvRes: True        # Using inverted residual block from mobilenet-v2
